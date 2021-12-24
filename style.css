@@ -98,3 +98,16 @@ input {
 .btn-convert {
     margin-top: 105px;
 }
+
+.alert-inner {
+    height: 15px;
+    opacity: 0;
+}
+.alert-inner.have {
+    opacity: 1;
+}
+
+.alert {
+    font-size: 10px;
+    color: red;
+}
