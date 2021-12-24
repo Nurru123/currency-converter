@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body, html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.inner {
+    width: 641px;
+    margin: auto;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.main-title {
+    font-size: 36px;
+    line-height: 42px;
+    font-weight: 700;
+    margin-bottom: 33px;
+}
+
+.title {
+    font-size: 12px;
+    line-height: 14px;
+    color: #9F9F9F;
+    margin-bottom: 10px;
+}
+
+.menu {
+    display: flex;
+    box-sizing: border-box;
+    border-radius: 3px;
+    border: 1px solid #E5E5E5;
+    width: 259px;
+    height: 30px;
+    justify-content: space-between;
+    margin-bottom: 19px;
+}
+
+.btn.selected {
+    background: #833AE0;
+    color: white;
+    border: none;
+}
+
+.btn {
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #C6C6C6;
+    width: 20%;
+    border-right: 1px solid #E5E5E5;
+    cursor: pointer;
+}
+
+.select.btn {
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    border: none;
+    border-radius: 0px 3px 3px 0px;
+    outline: none !important;
+}
+
+.select option {
+    color: black;
+    background-color: white;
+}
+
+.input {
+    width: 259px;
+    height: 102px;
+    border: 1px solid #E5E5E5;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 11px 14px 10px;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 36px;
+    line-height: 42px;
+    font-weight: 700;
+}
+
+.btn-convert {
+    margin-top: 105px;
+}
