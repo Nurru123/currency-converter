@@ -9,7 +9,7 @@ body, html {
 
 .inner {
     width: 641px;
-    margin: auto;
+    margin: 30px auto 0;
 }
 
 .main {
@@ -41,6 +41,10 @@ body, html {
     height: 30px;
     justify-content: space-between;
     margin-bottom: 19px;
+}
+
+.btn:first-child {
+    border-radius: 3px 0 0 3px;
 }
 
 .btn.selected {
@@ -95,19 +99,13 @@ input {
     font-weight: 700;
 }
 
-.btn-convert {
+.rate {
+    color: #C6C6C6;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.btn-change {
     margin-top: 105px;
-}
-
-.alert-inner {
-    height: 15px;
-    opacity: 0;
-}
-.alert-inner.have {
-    opacity: 1;
-}
-
-.alert {
-    font-size: 10px;
-    color: red;
+    cursor: pointer;
 }

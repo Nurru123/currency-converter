@@ -4,32 +4,53 @@ const currencyStr = 'EUR,CHF,NOK,CAD,RUB,GBP,MXN,CNY,ISK,KRW,HKD,CZK,BGN,BRL,USD
 window.addEventListener('load', () => init());
 function init() {
     const currencyArr = currencyStr.split(',');
-
+    const changeBtn = document.querySelector('.btn-change')
+    const input = document.querySelectorAll('input');
     const blocks = [];
-    
 
-    function request() {
-        API.request(blocks[0].value, blocks[1].value, response)
-        
+
+    function request(id) {
+        API.request(blocks[0].value, blocks[1].value, response, id)
+
     }
 
-    function response(rates) {
-        console.log(rates)
+    function response(rates, id) {
+        if (rates === 'XXX') {
+            if (id === 1) {
+                blocks[1].inputField.value = blocks[0].inputField.value
+            } else if (id === 2) {
+                blocks[0].inputField.value = blocks[1].inputField.value
+            }
+
+        } else if (id === 1) {
+            blocks[1].inputField.value = Math.round(blocks[0].inputField.value * rates[blocks[1].value] * 100) / 100
+        } else if (id === 2) {
+            blocks[0].inputField.value = Math.round(blocks[1].inputField.value / rates[blocks[1].value] * 100) / 100
+        }
+
     }
 
     ['RUB', 'USD'].forEach((currency, index) => {
-        const currencyInput = new CurrencyInput(`block-${index + 1}`, currencyArr, currency, request);
+        const currencyInput = new CurrencyInput(index + 1, currencyArr, currency, request);
         blocks.push(currencyInput)
     })
 
+    input.forEach(item => {
+        item.addEventListener('change', () => {
+            request(item.id)
+        })
+    })
 
 }
 
 class CurrencyInput {
     constructor(inputId, currencyList, defaultValue, request) {
         this.value = defaultValue;
-
-        const block = document.querySelector(`#${inputId}`);
+        this.input = 0;
+        this.id = inputId;
+        const inputField = document.querySelector(`#input-${inputId}`)
+        this.inputField = inputField
+        const block = document.querySelector(`#block-${inputId}`);
         const select = block.querySelector('select');
 
         const btns = block.querySelectorAll('.btn:not(select)');
@@ -38,7 +59,7 @@ class CurrencyInput {
             this.value = select.value;
             block.querySelector('.selected').classList.remove('selected');
             select.classList.add('selected');
-            request();
+            request(1);
         })
 
         btns.forEach(btn => {
@@ -46,59 +67,42 @@ class CurrencyInput {
                 block.querySelector('.selected').classList.remove('selected');
                 btn.classList.add('selected');
                 this.value = btn.innerText;
-                request();
+                request(1);
             })
         })
-
-
-
         currencyList.forEach(currencyText => {
             const option = document.createElement('option');
             option.value = currencyText;
             option.innerText = currencyText;
             select.append(option);
         });
-
-        const input = block.querySelector('input');
-
-        function alerts(value) {
-            const alertInner = block.querySelector('.alert-inner');
-            const alert = block.querySelector('.alert');
-
-            if (value.match(/^[0-9.,]*$/) && value !== '') {
-                if (alertInner.classList.contains('have')) {
-                    alert.remove();
-                    alertInner.classList.remove('have')
-                } 
-                
-                return value.replace(/,/g, ".");
-
-            } else {
-                let message = document.createElement('p');
-                message.classList.add('alert');
-                message.innerHTML = 'данные в неверном формате';
-                if (!alertInner.classList.contains('have')) {
-                    alertInner.append(message);
-                    alertInner.classList.add('have');
-                } 
-            }
+        function valueReplace() {
+            inputField.addEventListener('input', (e) => {
+                inputField.value = e.target.value.replace(/,/g, ".")
+                inputField.value = inputField.value.replace(/[^0-9\.,]/g, '')
+            })
+            return inputField.value
         }
-
-        input.addEventListener('change', () => {
-            this.value = input.value;
-            console.log(alerts(this.value))
+        valueReplace()
+        inputField.addEventListener('change', () => {
+            this.input = valueReplace()
+            console.log(this.input)
+            request(this.id)
         })
-
-
     }
 }
 
 const API = {
-    request(base, symbols, callback) {
-        fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
-            .then(res => res.json())
-            .then(data => {
-                callback(data.rates)
-            })
+    request(base, symbols, callback, id) {
+        if (base !== symbols) {
+            fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
+                .then(res => res.json())
+                .then(data => {
+                    callback(data.rates, id)
+                    console.log(data.rates)
+                })
+        } else {
+            callback('XXX', id)
+        }
     }
 }
