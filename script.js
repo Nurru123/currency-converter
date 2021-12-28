@@ -66,7 +66,7 @@ function init() {
         cover.addEventListener('click', () => {
             cover.style.display = 'none';
         })
-        message.innerText = 'Error :('
+        message.innerText = 'error :('
     }
 }
 
