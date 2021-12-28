@@ -1,5 +1,5 @@
 const currencyStr = 'EUR,CHF,NOK,CAD,RUB,GBP,MXN,CNY,ISK,KRW,HKD,CZK,BGN,BRL,USD,IDR,SGD,PHP,RON,HUF,ILS,THB,SEK,NZD,AUD,DKK,HRK,PLN,TRY,INR,MYR,ZAR,JPY'
-let timer;
+
 const message = document.querySelector('.message');
 const cover = document.querySelector('.cover');
 
@@ -13,9 +13,6 @@ function init() {
     const rate = document.querySelectorAll('.rate')
 
     function request(id = 1) {
-        timer = setTimeout(() => {
-            renderLoadMessage();
-        }, 500)
         API.request(blocks[0].value, blocks[1].value, response, id, renderLoadMessage, renderErrMessage);
     }
 
@@ -121,7 +118,6 @@ class CurrencyInput {
         valueReplace()
         inputField.addEventListener('change', () => {
             this.input = valueReplace();
-            console.log(this.input);
             request(this.id);
         })
     }
@@ -142,6 +138,9 @@ class CurrencyInput {
 
 const API = {
     request(base, symbols, callback, id, renderLoadMessage, renderErrMessage) {
+        let timer = setTimeout(() => {
+            renderLoadMessage();
+        }, 500)
         if (base !== symbols) {
             fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
                 .then(res => res.json())
