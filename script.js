@@ -1,5 +1,4 @@
 const currencyStr = 'EUR,CHF,NOK,CAD,RUB,GBP,MXN,CNY,ISK,KRW,HKD,CZK,BGN,BRL,USD,IDR,SGD,PHP,RON,HUF,ILS,THB,SEK,NZD,AUD,DKK,HRK,PLN,TRY,INR,MYR,ZAR,JPY'
-
 const message = document.querySelector('.message');
 const cover = document.querySelector('.cover');
 
@@ -145,6 +144,7 @@ const API = {
             fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     clearTimeout(timer)
                     callback(data.rates, id)
                 })
