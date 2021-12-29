@@ -144,7 +144,6 @@ const API = {
             fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${symbols}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     clearTimeout(timer)
                     callback(data.rates, id)
                 })
